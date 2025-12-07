@@ -11,6 +11,8 @@ import CharacterGenerator from './components/CharacterGenerator/CharacterGenerat
 import { createNewCharacter, calculateAttributes } from './services/characterService';
 import { saveCharacter } from './services/storageService';
 import { RACE_BONUSES } from './utils/constants';
+import './global.css';
+
 
 function App() {
   const [character, setCharacter] = useState(createNewCharacter());
