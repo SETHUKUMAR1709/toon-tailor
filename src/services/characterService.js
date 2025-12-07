@@ -9,21 +9,14 @@ import { CLASS_ATTRIBUTES, RACE_BONUSES, CLASS_ABILITIES, RACE_ABILITIES } from 
  * @returns {Object} Calculated attributes
  */
 export const calculateAttributes = (characterClass, race, baseAttributes = null) => {
-  // Start with class-based defaults if no base attributes provided
   const startingAttributes = baseAttributes || { ...CLASS_ATTRIBUTES[characterClass] };
-  
-  // Apply race bonuses
   const raceBonuses = RACE_BONUSES[race] || {};
-  
   const calculatedAttributes = { ...startingAttributes };
-  
-  // Apply race bonuses to calculated attributes
   Object.keys(raceBonuses).forEach(attribute => {
     if (calculatedAttributes[attribute] !== undefined) {
       calculatedAttributes[attribute] += raceBonuses[attribute];
     }
   });
-  
   return calculatedAttributes;
 };
 
@@ -48,7 +41,6 @@ export const getCharacterAbilities = (characterClass, race) => {
  * @param {String} gender - Character gender
  * @returns {String} Path to avatar image
  */
-// src/services/characterService.js
 export const getAvatarPath = () => {
   console.log(`/assets/avatars/default.png`);
   return `/assets/avatars/default.png`;
@@ -77,7 +69,7 @@ export const createNewCharacter = () => {
       hairColor: 'B_',
       eyeColor: '#8B4513',
       skinTone: '#F5DEB3',
-      height: 175, // cm
+      height: 175,
     },
     equipment: {
       top: defaultTop,

@@ -19,18 +19,6 @@ const CharacterGenerator = ({ onCharacterGenerated,character }) => {
     setError(null);
 
     try {
-      // Prepare context data from constants
-      const contextData = {
-        availableRaces: RACES,
-        availableClasses: CLASSES,
-        availableGenders: GENDERS,
-        classEquipment: CLASS_EQUIPMENT,
-        classAbilities: CLASS_ABILITIES,
-        raceAbilities: RACE_ABILITIES,
-        hairColors: hairColors
-      };
-
-      // Create message for GPT-4o
       const message = `
         I want you to create a character for an RPG game based on this description: "${prompt}".
         
@@ -92,13 +80,10 @@ const CharacterGenerator = ({ onCharacterGenerated,character }) => {
 
 
 
-      // Call the service to generate the character
-      const characterData = await generateCharacter(message,contextData);
+      const characterData = await generateCharacter(message);
       
-      // Create a new character with the generated data
       const baseCharacter = createNewCharacter();
       
-      // Convert item names to item keys if needed
       const equipmentKeysMap = {};
       Object.keys(CLASS_EQUIPMENT).forEach(category => {
         const categoryMap = {};
@@ -108,10 +93,8 @@ const CharacterGenerator = ({ onCharacterGenerated,character }) => {
         equipmentKeysMap[category] = categoryMap;
       });
 
-      // Ensure we're using the correct equipment keys
       const processedEquipment = { ...characterData.equipment };
       
-      // Merge the generated data with the base character
       const generatedCharacter = {
         ...baseCharacter,
         id: Date.now().toString(),
@@ -127,15 +110,12 @@ const CharacterGenerator = ({ onCharacterGenerated,character }) => {
           ...baseCharacter.equipment,
           ...processedEquipment
         },
-        // Recalculate attributes based on class and race
         attributes: calculateAttributes(characterData.class, characterData.race),
         selectedAbilities: characterData.selectedAbilities || []
       };
 
-      // Pass the generated character to the parent component
       onCharacterGenerated(generatedCharacter);
       
-      // Reset the prompt
       setPrompt('');
       
     } catch (error) {
